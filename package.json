@@ -7,11 +7,14 @@
   "author": "",
   "main": "index.js",
   "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
-    "oxfmt": "^0.45.0"
+    "oxfmt": "^0.45.0",
+    "oxlint": "^1.60.0"
   },
   "packageManager": "pnpm@10.33.0"
 }
