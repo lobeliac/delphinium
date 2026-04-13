@@ -2,12 +2,16 @@
   "name": "delphinium",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "devDependencies": {
+    "oxfmt": "^0.45.0"
+  },
   "packageManager": "pnpm@10.33.0"
 }
