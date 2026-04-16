@@ -1,9 +1,5 @@
-import { defineConfig } from "oxlint";
+import { defineConfig } from "@standard-config/oxlint";
 
 export default defineConfig({
-  plugins: ["typescript", "react", "jest", "unicorn", "oxc"],
-  ignorePatterns: ["node_modules/**"],
-  categories: {
-    correctness: "error",
-  },
+  react: true
 });

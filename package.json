@@ -1,26 +1,30 @@
 {
   "name": "delphinium",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "license": "ISC",
-  "author": "",
-  "main": "index.js",
+  "description": "Root-level of the delphinium workspace",
+  "license": "0BSD",
+  "author": "lobeliac",
+  "type": "module",
   "scripts": {
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "prepare": "husky init",
-    "pre-commit": "lint-staged"
+    "prepare": "simple-git-hooks"
   },
   "devDependencies": {
-    "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
+    "@moonrepo/cli": "^2.2.0",
+    "@standard-config/oxlint": "^1.8.0",
+    "nano-staged": "^1.0.2",
     "oxfmt": "^0.45.0",
-    "oxlint": "^1.60.0"
+    "oxlint": "^1.60.0",
+    "oxlint-tsgolint": "^0.18.0",
+    "simple-git-hooks": "^2.13.1"
   },
-  "lint-staged": {
+  "simple-git-hooks": {
+    "pre-commit": "./node_modules/.bin/nano-staged"
+  },
+  "nano-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint",
     "*": "pnpm run fmt"
   },

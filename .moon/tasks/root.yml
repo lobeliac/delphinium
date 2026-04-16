@@ -1,0 +1,5 @@
+tasks:
+  format:
+    command: "pnpm run fmt"
+  lint:
+    command: "pnpm run lint"
