@@ -1,5 +1,5 @@
 {
-  "name": "@base/ts-config",
+  "name": "@utility/ts-config",
   "version": "0.0.0",
   "description": "Some sane defaults for Typescript delphinium packages/apps",
   "license": "0BSD",

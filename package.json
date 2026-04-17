@@ -15,11 +15,13 @@
   "devDependencies": {
     "@moonrepo/cli": "^2.2.0",
     "@standard-config/oxlint": "^1.8.0",
+    "@types/node": "catalog:",
     "nano-staged": "^1.0.2",
     "oxfmt": "^0.45.0",
     "oxlint": "^1.60.0",
     "oxlint-tsgolint": "^0.18.0",
-    "simple-git-hooks": "^2.13.1"
+    "simple-git-hooks": "^2.13.1",
+    "typescript": "catalog:"
   },
   "simple-git-hooks": {
     "pre-commit": "./node_modules/.bin/nano-staged"

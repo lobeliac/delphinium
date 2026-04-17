@@ -11,7 +11,7 @@ catalogs:
       version: 25.6.0
     typescript:
       specifier: ^6.0.2
-      version: 6.0.2
+      version: 6.0.3
 
 importers:
 
@@ -23,6 +23,9 @@ importers:
       '@standard-config/oxlint':
         specifier: ^1.8.0
         version: 1.8.0(oxlint-tsgolint@0.18.1)(oxlint@1.60.0(oxlint-tsgolint@0.18.1))
+      '@types/node':
+        specifier: 'catalog:'
+        version: 25.6.0
       nano-staged:
         specifier: ^1.0.2
         version: 1.0.2
@@ -38,18 +41,15 @@ importers:
       simple-git-hooks:
         specifier: ^2.13.1
         version: 2.13.1
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
 
   packages/domain:
     devDependencies:
-      '@base/ts-config':
+      '@utility/ts-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@types/node':
-        specifier: 'catalog:'
-        version: 25.6.0
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.2
 
   packages/typescript-config:
     devDependencies:
@@ -434,8 +434,8 @@ packages:
     resolution: {integrity: sha512-Pugqs6M0m7Lv1I7FtxN4aoyToKg1C4tu+/381vH35y8oENM/Ai7f7C4StcoK4/+BSw9ebcS8jRiVrORFKCALLw==}
     engines: {node: ^20.0.0 || >=22.0.0}
 
-  typescript@6.0.2:
-    resolution: {integrity: sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ==}
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -687,6 +687,6 @@ snapshots:
 
   tinypool@2.1.0: {}
 
-  typescript@6.0.2: {}
+  typescript@6.0.3: {}
 
   undici-types@7.19.2: {}
