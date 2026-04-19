@@ -13,8 +13,8 @@
     "./error": "./lib/error.ts",
     "./result": "./lib/result.ts"
   },
-  "devDependencies": {
-    "@utility/ts-config": "workspace:*"
+  "scripts": {
+    "test": "vitest run"
   },
   "packageManager": "pnpm@10.33.0"
 }

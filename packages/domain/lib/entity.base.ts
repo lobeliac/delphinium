@@ -65,8 +65,8 @@ export abstract class Entity<EntityProps> {
    *  @returns The domain events that were associated with the entity.
    */
   get getAndClearEvents(): DomainEvent[] {
-    const events = this._domainEvents;
-    this._domainEvents.splice(0);
+    const events = [...this._domainEvents];
+    this._domainEvents = [];
     return events;
   }
 
