@@ -4,6 +4,7 @@
   "description": "Heart of the delphinium",
   "license": "0BSD",
   "author": "lobeliac",
+  "type": "module",
   "exports": {
     "./eventbus": "./lib/eventbus.ts",
     "./entity.base": "./lib/entity.base.ts",
