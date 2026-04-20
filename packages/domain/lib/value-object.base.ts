@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "./guard";
+import { isNullOrUndefined } from "@base/domain/guard";
 
 /**
  * Base class for Value Objects in a Domain-Driven Design context.

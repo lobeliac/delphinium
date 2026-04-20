@@ -1,6 +1,6 @@
-import type { EntityNotFoundError } from "./error";
-import type { Result } from "./result";
-import type { ID, Entity } from "./entity.base";
+import type { EntityNotFoundError } from "@base/domain/error";
+import type { Result } from "@base/domain/result";
+import type { ID, Entity } from "@base/domain/entity.base";
 
 /**
  * A generic "type" for a repository that manages single type of entity to perform CRUD operations.

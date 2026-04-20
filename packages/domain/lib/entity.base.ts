@@ -1,4 +1,4 @@
-import type { DomainEvent } from "./eventbus";
+import type { DomainEvent } from "@base/domain/eventbus";
 
 /**
  *  Represents a unique identifier for an entity.
@@ -6,7 +6,7 @@ import type { DomainEvent } from "./eventbus";
 export type ID = string;
 
 /**
- *  Represents the properties required to create an base entity.
+ *  Represents the properties required to create a base entity.
  */
 export type CreateEntityProps<T> = {
   /** The unique identifier for the entity. */
