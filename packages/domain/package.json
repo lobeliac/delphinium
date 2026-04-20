@@ -10,6 +10,8 @@
     "./entity.base": "./lib/entity.base.ts",
     "./value-object.base": "./lib/value-object.base.ts",
     "./repository.base": "./lib/repository.base.ts",
+    "./command.base": "./lib/command.base.ts",
+    "./command-handler": "./lib/command-handler.ts",
     "./error": "./lib/error.ts",
     "./result": "./lib/result.ts"
   },
