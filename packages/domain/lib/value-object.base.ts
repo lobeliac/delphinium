@@ -6,14 +6,14 @@ import { isNullOrUndefined } from "@base/domain/guard";
  *
  * @template ValueType - The type of the underlying value being wrapped.
  */
-export abstract class BaseValueObject<ValueType> {
+export abstract class ValueObject<ValueType> {
   /**
    * The wrapped, immutable value.
    */
   protected readonly _value: ValueType;
 
   /**
-   * Creates an instance of BaseValueObject.
+   * Creates an instance of ValueObject.
    * The value is frozen to ensure immutability.
    *
    * @param value - The value to wrap.
@@ -36,7 +36,7 @@ export abstract class BaseValueObject<ValueType> {
    * @param other - The other value object to compare against.
    * @returns True if the other object is not null/undefined and has the same value, false otherwise.
    */
-  public equals(other: BaseValueObject<ValueType>): boolean {
+  public equals(other: ValueObject<ValueType>): boolean {
     return !isNullOrUndefined(other) && this._value === other._value;
   }
 
