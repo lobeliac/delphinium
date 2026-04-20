@@ -1,0 +1,20 @@
+{
+  "name": "@base/identity",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Identity slice",
+  "type": "module",
+  "exports": {
+    "./domain": "./src/domain",
+    "./commands": "./src/commands",
+    "./error": "./src/error",
+    "./events": "./src/events",
+    "./repository": "./src/repository"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@base/domain": "workspace:*"
+  }
+}
