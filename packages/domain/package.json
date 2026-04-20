@@ -6,7 +6,7 @@
   "author": "lobeliac",
   "type": "module",
   "exports": {
-    "./eventbus": "./lib/eventbus.ts",
+    "./event": "./lib/eventbus.ts",
     "./entity.base": "./lib/entity.base.ts",
     "./value-object.base": "./lib/value-object.base.ts",
     "./repository.base": "./lib/repository.base.ts",
