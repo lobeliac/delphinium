@@ -1,4 +1,4 @@
-import type { DomainEvent } from "@base/domain/eventbus";
+import type { DomainEvent } from "@base/domain/event";
 
 /**
  *  Represents a unique identifier for an entity.
@@ -65,8 +65,10 @@ export abstract class Entity<EntityProps> {
    *  @returns The domain events that were associated with the entity.
    */
   get getAndClearEvents(): DomainEvent[] {
-    const events = [...this._domainEvents];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const events: DomainEvent[] = [...this._domainEvents];
     this._domainEvents = [];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return events;
   }
 
