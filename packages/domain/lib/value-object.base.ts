@@ -17,11 +17,9 @@ export abstract class ValueObject<ValueType> {
    * The value is frozen to ensure immutability.
    *
    * @param value - The value to wrap.
-   * @throws Error if the {@link validate} method fails.
    */
   constructor(value: ValueType) {
     this._value = Object.freeze(value);
-    this.validate();
   }
 
   /**
@@ -39,11 +37,4 @@ export abstract class ValueObject<ValueType> {
   public equals(other: ValueObject<ValueType>): boolean {
     return !isNullOrUndefined(other) && this._value === other._value;
   }
-
-  /**
-   * Performs domain-specific validation on the value.
-   * Must be implemented by subclasses to ensure the integrity of the value object.
-   * @protected
-   */
-  protected abstract validate(): void;
 }
