@@ -8,8 +8,8 @@ class MockEntity extends Entity<{ name: string }> {
   }
 
   public updateProp(_name: string) {
-    const old = this.props["name"];
-    this.props["name"] = _name;
+    const old = this.props.name;
+    this.props.name = _name;
     (this as any).addDomainEvent(new MockEvent(this.id, old, _name));
   }
 }
