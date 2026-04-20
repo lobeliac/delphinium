@@ -56,6 +56,12 @@ importers:
 
   packages/domain: {}
 
+  packages/identity:
+    dependencies:
+      '@base/domain':
+        specifier: workspace:*
+        version: link:../domain
+
 packages:
 
   '@emnapi/core@1.9.2':
