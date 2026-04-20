@@ -5,9 +5,7 @@ import type { ID, Entity } from "@base/domain/entity.base";
 /**
  * A generic "type" for a repository that manages single type of entity to perform CRUD operations.
  */
-//  I am disabling this rule at the moment since oxlint runs before commit happens due to hook which results by error where this can be `type` due to nothing implementing it yet.
-/* oxlint-disable typescript/consistent-type-definitions */
-export interface Repository<T extends Entity<ID>> {
+export type Repository<T extends Entity<any>> = {
   /**
    * Retrieves an entity by its unique identifier.
    * @param id - The unique identifier of entity.
@@ -28,4 +26,4 @@ export interface Repository<T extends Entity<ID>> {
    * @param entity - The Entity to be deleted.
    */
   delete(entity: T): Promise<void>;
-}
+};
