@@ -10,7 +10,6 @@
     "./entity.base": "./lib/entity.base.ts",
     "./value-object.base": "./lib/value-object.base.ts",
     "./repository.base": "./lib/repository.base.ts",
-    "./guard": "./lib/guard.ts",
     "./error": "./lib/error.ts",
     "./result": "./lib/result.ts"
   },

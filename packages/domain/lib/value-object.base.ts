@@ -1,5 +1,3 @@
-import { isNullOrUndefined } from "@base/domain/guard";
-
 /**
  * Base class for Value Objects in a Domain-Driven Design context.
  * Value objects are immutable objects that are defined by their attributes rather than a unique identity.
@@ -35,6 +33,6 @@ export abstract class ValueObject<ValueType> {
    * @returns True if the other object is not null/undefined and has the same value, false otherwise.
    */
   public equals(other: ValueObject<ValueType>): boolean {
-    return !isNullOrUndefined(other) && this._value === other._value;
+    return other !== null && this._value === other._value;
   }
 }
