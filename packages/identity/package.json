@@ -1,5 +1,5 @@
 {
-  "name": "@base/identity",
+  "name": "@slice/identity",
   "version": "1.0.0",
   "private": true,
   "description": "Identity slice",

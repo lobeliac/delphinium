@@ -1,9 +1,16 @@
 {
-  "name": "miniblog",
+  "name": "@slice/miniblog",
   "version": "1.0.0",
   "private": true,
   "description": "Miniblog Slice",
   "type": "module",
+  "exports": {
+    "./domain": "./src/domain",
+    "./commands": "./src/commands",
+    "./error": "./src/error",
+    "./events": "./src/events",
+    "./repository": "./src/repository"
+  },
   "scripts": {
     "test": "vitest run"
   },
