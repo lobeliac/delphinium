@@ -59,4 +59,12 @@ export class Account extends Entity<AccountProps> {
   delete(): void {
     this.addDomainEvent(new AccountDeletedEvent(this.id));
   }
+
+  get nickname(): Nickname {
+    return this.props.nickname;
+  }
+
+  get password(): Password {
+    return this.props.password;
+  }
 }

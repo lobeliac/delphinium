@@ -54,4 +54,16 @@ export class User extends Entity<UserProps> {
     this._updatedAt = new Date();
     this.addDomainEvent(new UserUpdatedEvent(this.id, this.props.bio));
   }
+
+  get bio(): Bio {
+    return this.props.bio;
+  }
+
+  get displayName(): DisplayName {
+    return this.props.displayName;
+  }
+
+  get accountID(): ID {
+    return this.props.accountID;
+  }
 }
