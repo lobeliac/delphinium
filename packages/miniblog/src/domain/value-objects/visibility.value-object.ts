@@ -3,7 +3,7 @@ import { ValueObject } from "@base/domain/value-object.base";
 /**
  * Enum representing the possible visibility states for a miniblog. (TypeScript doesn't like enum type anymore, check --erasableSyntax)
  */
-const MiniblogVisibilityEnum = {
+export const MiniblogVisibilityEnum = {
   /** Visible to everyone */
   PUBLIC: 1,
   /** Visible only to the owner */

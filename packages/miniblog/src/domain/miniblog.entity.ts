@@ -73,4 +73,16 @@ export class Miniblog extends Entity<MiniblogProps> {
   delete(): void {
     this.addDomainEvent(new MiniblogDeletedEvent(this.id, this.props.authorID));
   }
+
+  get authorID(): ID {
+    return this.props.authorID;
+  }
+
+  get visibility(): MiniblogVisibilityVO {
+    return this.props.visibility;
+  }
+
+  get content(): MiniblogContent {
+    return this.props.content;
+  }
 }
