@@ -1,0 +1,13 @@
+{
+  "name": "miniblog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Miniblog Slice",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@base/domain": "workspace:*"
+  }
+}
