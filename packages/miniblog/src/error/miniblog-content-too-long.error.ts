@@ -8,7 +8,7 @@ export class MiniblogContentTooLongError extends InvariantViolationError {
    * @param max The maximum number of words allowed.
    */
   constructor(max: number) {
-    super(`Blog can't be longer than the maximum ${max} number of words long`);
+    super(`Miniblog content exceeds the maximum limit of ${max} words.`);
     this.name = "MiniblogContentTooLongError";
   }
 }
