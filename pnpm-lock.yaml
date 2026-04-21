@@ -56,6 +56,12 @@ importers:
 
   packages/domain: {}
 
+  packages/engagement:
+    dependencies:
+      '@base/domain':
+        specifier: workspace:*
+        version: link:../domain
+
   packages/identity:
     dependencies:
       '@base/domain':
