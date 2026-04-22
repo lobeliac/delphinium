@@ -7,7 +7,7 @@ import type { BaseCommand } from "@base/domain/command.base";
  *                    It must extend BaseCommand and be compatible with the TResult.
  * @template TResult The type of the result produced by the handler upon successful execution.
  */
-export type CommandHandler<TCommand extends BaseCommand<TResult>, TResult> = {
+export type CommandHandler<TCommand extends BaseCommand<any>, TResult = void> = {
   /**
    * Executes the business logic associated with the provided command.
    *

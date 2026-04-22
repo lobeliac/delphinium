@@ -9,8 +9,7 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
-    "prepare": "simple-git-hooks"
+    "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
     "@moonrepo/cli": "^2.2.0",
@@ -22,16 +21,21 @@
     "oxfmt": "^0.45.0",
     "oxlint": "^1.60.0",
     "oxlint-tsgolint": "^0.18.0",
-    "simple-git-hooks": "^2.13.1",
     "typescript": "catalog:",
     "vitest": "^4.1.4"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "./node_modules/.bin/nano-staged"
   },
   "nano-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": "pnpm run lint",
     "*": "pnpm run fmt"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "bcrypt",
+      "esbuild",
+      "prisma"
+    ]
+  }
 }
