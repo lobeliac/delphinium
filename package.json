@@ -35,6 +35,7 @@
       "@prisma/engines",
       "bcrypt",
       "esbuild",
+      "msw",
       "prisma"
     ]
   }

@@ -21,6 +21,7 @@
     "@slice/identity": "workspace:*",
     "@slice/miniblog": "workspace:*",
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^4.21.2",
     "inversify": "^6.2.1",

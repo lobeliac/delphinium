@@ -37,6 +37,7 @@ describe("DeleteMiniblogCommandHandler", () => {
     mockMiniblogRepo = {
       findById: vi.fn().mockResolvedValue({ ok: true, value: existingMiniblog }),
       findAllByAuthor: vi.fn(),
+      findAll: vi.fn(),
       save: vi.fn(),
       delete: vi.fn()
     } as MiniblogRepository;
