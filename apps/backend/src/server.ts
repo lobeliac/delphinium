@@ -2,6 +2,7 @@
 import "reflect-metadata";
 import { container } from "./infrastructure/di/inversify.config.ts";
 import express from "express";
+import cors from "cors";
 import { authRouter } from "./presentation/routes/auth.routes.ts";
 import { miniblogRouter } from "./presentation/routes/miniblog.routes.ts";
 import { engagementRouter } from "./presentation/routes/engagement.routes.ts";
@@ -52,6 +53,7 @@ import { CreateNotificationCommandHandler } from "./application/command-handlers
 import { MarkNotificationReadCommandHandler } from "./application/command-handlers/engagement/notification/mark-notification-read.handler.ts";
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT ?? 3000;
 
 // Register Command Handlers
