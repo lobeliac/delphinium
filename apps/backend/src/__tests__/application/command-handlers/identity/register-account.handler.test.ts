@@ -7,6 +7,7 @@ import { AccountRegisteredEvent, UserRegisteredEvent } from "@slice/identity/eve
 import type { AccountRepository, UserRepository } from "@slice/identity/repository";
 import type { EventBus } from "@base/domain/event";
 import type { CryptoService } from "../../../../application/services/crypto.service.ts";
+import { IllegalStateError } from "@base/domain/error";
 
 describe("RegisterAccountCommandHandler", () => {
   let handler: RegisterAccountCommandHandler;
@@ -19,7 +20,8 @@ describe("RegisterAccountCommandHandler", () => {
     mockAccountRepo = {
       findById: vi.fn(),
       save: vi.fn(),
-      delete: vi.fn()
+      delete: vi.fn(),
+      findByNickname: vi.fn().mockResolvedValue({ ok: false })
     } as AccountRepository;
 
     mockUserRepo = {
@@ -91,5 +93,30 @@ describe("RegisterAccountCommandHandler", () => {
     // We expect both an AccountRegisteredEvent and a UserRegisteredEvent
     expect(publishedEvent1).toBeInstanceOf(AccountRegisteredEvent);
     expect(publishedEvent2).toBeInstanceOf(UserRegisteredEvent);
+  });
+
+  it("trying to create account based on same nickname twice should throw illegall state error", async () => {
+    // Setup
+    const nicknameResult = Nickname.create("newuser2");
+    const passwordResult = Password.create("StrongPass1!");
+    const displayNameResult = DisplayName.create("New User");
+
+    expect(nicknameResult.ok).toBe(true);
+    expect(passwordResult.ok).toBe(true);
+    expect(displayNameResult.ok).toBe(true);
+
+    const command = new RegisterAccountCommand({
+      nickname: nicknameResult.value,
+      password: passwordResult.value,
+      displayName: displayNameResult.value
+    });
+
+    vi.mocked(mockAccountRepo.findByNickname)
+      .mockResolvedValueOnce({ ok: false } as any)
+      .mockResolvedValueOnce({ ok: true } as any);
+
+    // Execute
+    await handler.handle(command);
+    await expect(handler.handle(command)).rejects.toThrow(IllegalStateError);
   });
 });

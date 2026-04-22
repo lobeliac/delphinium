@@ -2,9 +2,9 @@ import { injectable, inject } from "inversify";
 import type { AccountRepository } from "@slice/identity/repository";
 import { Account, Nickname, Password } from "@slice/identity/domain";
 import { PrismaService } from "../../database/prisma.ts";
-import { EntityNotFoundError } from "@base/domain/error";
 import type { Result } from "@base/domain/result";
 import type { ID } from "@base/domain/entity.base";
+import { AccountNotFoundError } from "@slice/identity/error";
 
 @injectable()
 export class PrismaAccountRepository implements AccountRepository {
@@ -14,10 +14,31 @@ export class PrismaAccountRepository implements AccountRepository {
     this.prisma = prisma;
   }
 
-  async findById(id: ID): Promise<Result<Account, EntityNotFoundError>> {
+  async findByNickname(_nickname: Nickname): Promise<Result<Account, AccountNotFoundError>> {
+    const data = await this.prisma.account.findUnique({ where: { nickname: _nickname.value } });
+    if (!data) {
+      return { ok: false, error: new AccountNotFoundError(_nickname.value) };
+    }
+
+    const password = Password.reconstitute(data.passwordHash);
+
+    const account = Account.reconstitute(
+      {
+        nickname: _nickname,
+        password,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt
+      },
+      data.id
+    );
+
+    return { ok: true, value: account };
+  }
+
+  async findById(id: ID): Promise<Result<Account, AccountNotFoundError>> {
     const data = await this.prisma.account.findUnique({ where: { id } });
     if (!data) {
-      return { ok: false, error: new EntityNotFoundError("Account", id) };
+      return { ok: false, error: new AccountNotFoundError(id) };
     }
 
     const nickname = Nickname.reconstitute(data.nickname);

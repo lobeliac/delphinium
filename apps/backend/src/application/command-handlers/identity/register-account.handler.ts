@@ -5,6 +5,7 @@ import type { RegisterAccountCommand } from "@slice/identity/commands";
 import type { AccountRepository, UserRepository } from "@slice/identity/repository";
 import { Account, User, Bio, Password } from "@slice/identity/domain";
 import type { CryptoService } from "../../services/crypto.service.ts";
+import { IllegalStateError } from "@base/domain/error";
 
 export const TYPES = {
   AccountRepository: Symbol.for("AccountRepository"),
@@ -35,6 +36,11 @@ export class RegisterAccountCommandHandler implements CommandHandler<RegisterAcc
   async handle(command: RegisterAccountCommand): Promise<void> {
     const { nickname, password, displayName } = command.payload;
 
+    const result = await this.accountRepo.findByNickname(nickname);
+
+    if (result.ok) {
+      throw new IllegalStateError(`Account with nickname "${nickname.value}" already exists`);
+    }
     // Hash the password
     const passwordHashString = await this.cryptoService.hashPassword(password.value);
 
