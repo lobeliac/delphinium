@@ -53,3 +53,13 @@ export class IllegalStateError extends DomainError {
     this.name = "IllegalStateError";
   }
 }
+
+/**
+ * Thrown when authentication fails.
+ */
+export class AuthenticationError extends DomainError {
+  constructor(message: string) {
+    super(message);
+    this.name = "AuthenticationError";
+  }
+}
