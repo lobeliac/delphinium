@@ -49,6 +49,13 @@ export class Comment extends Entity<CommentProps> {
   }
 
   /**
+   * Reconstitutes an existing Comment from persistence without triggering events.
+   */
+  public static reconstitute(props: CommentProps, commentID: ID): Comment {
+    return new Comment(commentID, props);
+  }
+
+  /**
    * Updates the content of the comment.
    *
    * @param newContent The new content to be set.

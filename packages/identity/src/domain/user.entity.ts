@@ -41,6 +41,13 @@ export class User extends Entity<UserProps> {
     return user;
   }
 
+  /**
+   * Reconstitutes an existing User from persistence without triggering events.
+   */
+  public static reconstitute(userProps: UserProps, userID: ID): User {
+    return new User(userID, userProps);
+  }
+
   /** Updates the user's display name and records the change. */
   updateDisplayName(displayName: DisplayName): void {
     this.props.displayName = displayName;

@@ -53,6 +53,13 @@ export class Notification extends Entity<NotificationProps> {
     return notification;
   }
 
+  /**
+   * Reconstitutes an existing Notification from persistence without triggering events.
+   */
+  public static reconstitute(props: NotificationProps, id: ID): Notification {
+    return new Notification(id, props);
+  }
+
   public markAsRead(): void {
     if (this.props.isRead) {
       return;

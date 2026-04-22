@@ -41,6 +41,13 @@ export class Account extends Entity<AccountProps> {
     return account;
   }
 
+  /**
+   * Reconstitutes an existing Account from persistence without triggering events.
+   */
+  public static reconstitute(accountProps: AccountProps, accountID: ID): Account {
+    return new Account(accountID, accountProps);
+  }
+
   /** Updates the account nickname and records the change. */
   updateNickname(nickname: Nickname): void {
     this.props.nickname = nickname;

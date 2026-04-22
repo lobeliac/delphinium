@@ -36,6 +36,13 @@ export class MiniblogHashtag extends Entity<MiniblogHashtagProps> {
     return minblogHashtag;
   }
 
+  /**
+   * Reconstitutes an existing MiniblogHashtag from persistence without triggering events.
+   */
+  public static reconstitute(props: MiniblogHashtagProps, id: ID): MiniblogHashtag {
+    return new MiniblogHashtag(id, props);
+  }
+
   delete(): void {
     this.addDomainEvent(
       new MiniblogUntaggedEvent(this.id, this.props.miniblogID, this.props.hashtag)

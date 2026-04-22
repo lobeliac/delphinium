@@ -44,6 +44,13 @@ export class Miniblog extends Entity<MiniblogProps> {
   }
 
   /**
+   * Reconstitutes an existing Miniblog from persistence without triggering events.
+   */
+  public static reconstitute(props: MiniblogProps, blogID: ID): Miniblog {
+    return new Miniblog(blogID, props);
+  }
+
+  /**
    * Updates the content of the miniblog.
    *
    * @param newBlogContent The new content to be set.

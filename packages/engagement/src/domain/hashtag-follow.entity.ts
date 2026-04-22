@@ -34,6 +34,13 @@ export class HashtagFollow extends Entity<HashtagFollowProps> {
     return follow;
   }
 
+  /**
+   * Reconstitutes an existing HashtagFollow from persistence without triggering events.
+   */
+  public static reconstitute(props: HashtagFollowProps, id: ID): HashtagFollow {
+    return new HashtagFollow(id, props);
+  }
+
   delete(): void {
     this.addDomainEvent(new HashtagUnfollowedEvent(this.id, this.props.userID, this.props.hashtag));
   }

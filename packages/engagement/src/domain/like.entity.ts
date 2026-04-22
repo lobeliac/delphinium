@@ -38,6 +38,13 @@ export class Like extends Entity<LikeProps> {
   }
 
   /**
+   * Reconstitutes an existing Like from persistence without triggering events.
+   */
+  public static reconstitute(props: LikeProps, likeID: ID): Like {
+    return new Like(likeID, props);
+  }
+
+  /**
    * Marks the Like for deletion by adding a LikeRemovedEvent.
    */
   delete(): void {

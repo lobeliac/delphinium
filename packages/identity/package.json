@@ -5,11 +5,11 @@
   "description": "Identity slice",
   "type": "module",
   "exports": {
-    "./domain": "./src/domain",
-    "./commands": "./src/commands",
-    "./error": "./src/error",
-    "./events": "./src/events",
-    "./repository": "./src/repository"
+    "./domain": "./src/domain/index.ts",
+    "./commands": "./src/commands/index.ts",
+    "./error": "./src/error/index.ts",
+    "./events": "./src/events/index.ts",
+    "./repository": "./src/repository/index.ts"
   },
   "scripts": {
     "test": "vitest run"
