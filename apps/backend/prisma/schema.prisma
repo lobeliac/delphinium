@@ -1,0 +1,132 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -----------------------------------------------------------------------------
+// Identity Domain
+// -----------------------------------------------------------------------------
+model Account {
+  id           String   @id @default(uuid())
+  nickname     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relationships
+  user User?
+}
+
+model User {
+  id          String   @id @default(uuid())
+  accountID   String   @unique
+  displayName String
+  bio         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  account        Account         @relation(fields: [accountID], references: [id], onDelete: Cascade)
+  miniblogs      Miniblog[]
+  likes          Like[]
+  comments       Comment[]
+  hashtagFollows HashtagFollow[]
+  notifications  Notification[]  @relation("UserNotifications")
+  actedEvents    Notification[]  @relation("ActorNotifications")
+}
+
+// -----------------------------------------------------------------------------
+// Miniblog Domain
+// -----------------------------------------------------------------------------
+model Miniblog {
+  id         String   @id @default(uuid())
+  authorID   String
+  content    String
+  visibility String   // "PUBLIC", "PRIVATE", "FOLLOWERS"
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  author   User              @relation(fields: [authorID], references: [id], onDelete: Cascade)
+  likes    Like[]
+  comments Comment[]
+  hashtags MiniblogHashtag[]
+}
+
+// -----------------------------------------------------------------------------
+// Engagement Domain
+// -----------------------------------------------------------------------------
+model Like {
+  id         String   @id @default(uuid())
+  userID     String
+  miniblogID String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  user     User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  miniblog Miniblog @relation(fields: [miniblogID], references: [id], onDelete: Cascade)
+
+  @@unique([userID, miniblogID])
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  userID     String
+  miniblogID String
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  user     User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  miniblog Miniblog @relation(fields: [miniblogID], references: [id], onDelete: Cascade)
+}
+
+model MiniblogHashtag {
+  id         String   @id @default(uuid())
+  miniblogID String
+  hashtag    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  miniblog Miniblog @relation(fields: [miniblogID], references: [id], onDelete: Cascade)
+
+  @@unique([miniblogID, hashtag])
+}
+
+model HashtagFollow {
+  id        String   @id @default(uuid())
+  userID    String
+  hashtag   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user User @relation(fields: [userID], references: [id], onDelete: Cascade)
+
+  @@unique([userID, hashtag])
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  userID      String
+  actorID     String
+  type        String   // "LIKE", "COMMENT", "HASHTAG_POST"
+  referenceID String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  user  User @relation("UserNotifications", fields: [userID], references: [id], onDelete: Cascade)
+  actor User @relation("ActorNotifications", fields: [actorID], references: [id], onDelete: Cascade)
+}
