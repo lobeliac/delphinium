@@ -16,7 +16,7 @@ export class BackendEventBus implements EventBus {
     const eventHandlers = this.handlers.get(eventName) ?? [];
 
     // Execute all handlers concurrently
-    await Promise.all(eventHandlers.map(async (handler) => Promise.resolve(handler(event))));
+    await Promise.all(eventHandlers.map(async (handler) => handler(event)));
   }
 
   public async subscribe(

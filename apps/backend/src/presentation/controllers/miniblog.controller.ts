@@ -136,7 +136,7 @@ export class MiniblogController {
     this.prisma = prisma;
   }
 
-  public createMiniblog = async (req: AuthenticatedRequest, res: Response) => {
+  public createMiniblog = async (req: AuthenticatedRequest, res: Response) : Promise<void> => {
     try {
       const parsed = CreateMiniblogSchema.parse(req.body);
       const authorId = req.user.sub as string;
@@ -170,7 +170,7 @@ export class MiniblogController {
     }
   };
 
-  public updateMiniblog = async (req: AuthenticatedRequest, res: Response) => {
+  public updateMiniblog = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const parsed = UpdateMiniblogSchema.parse(req.body);
       const miniblogId = req.params.id as string;
@@ -210,7 +210,7 @@ export class MiniblogController {
     }
   };
 
-  public deleteMiniblog = async (req: AuthenticatedRequest, res: Response) => {
+  public deleteMiniblog = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const miniblogId = req.params.id as string;
 
@@ -229,7 +229,7 @@ export class MiniblogController {
     }
   };
 
-  public getMiniblogs = async (req: AuthenticatedRequest, res: Response) => {
+  public getMiniblogs = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       // Basic Read-Side implementation using Prisma directly
       const miniblogs = await this.prisma.miniblog.findMany({

@@ -200,7 +200,7 @@ export class EngagementController {
   }
 
   // LIKES
-  public likeMiniblog = async (req: AuthenticatedRequest, res: Response) => {
+  public likeMiniblog = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const miniblogId = req.params.miniblogId as string;
       const userId = req.user.sub as string;
@@ -217,7 +217,7 @@ export class EngagementController {
     }
   };
 
-  public removeLike = async (req: AuthenticatedRequest, res: Response) => {
+  public removeLike = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const miniblogId = req.params.miniblogId as string;
       const userId = req.user.sub as string;
@@ -235,7 +235,7 @@ export class EngagementController {
   };
 
   // COMMENTS
-  public createComment = async (req: AuthenticatedRequest, res: Response) => {
+  public createComment = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const parsed = CreateCommentSchema.parse(req.body);
       const miniblogId = req.params.miniblogId as string;
@@ -259,7 +259,7 @@ export class EngagementController {
     }
   };
 
-  public updateComment = async (req: AuthenticatedRequest, res: Response) => {
+  public updateComment = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const parsed = UpdateCommentSchema.parse(req.body);
       const commentId = req.params.commentId as string;
@@ -280,7 +280,7 @@ export class EngagementController {
     }
   };
 
-  public deleteComment = async (req: AuthenticatedRequest, res: Response) => {
+  public deleteComment = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const commentId = req.params.commentId as string;
       await this.commandBus.execute(new DeleteCommentCommand({ commentID: commentId }));
@@ -295,7 +295,7 @@ export class EngagementController {
   };
 
   // HASHTAGS
-  public followHashtag = async (req: AuthenticatedRequest, res: Response) => {
+  public followHashtag = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const hashtag = req.params.hashtag as string;
       const userId = req.user.sub as string;
@@ -310,7 +310,7 @@ export class EngagementController {
     }
   };
 
-  public unfollowHashtag = async (req: AuthenticatedRequest, res: Response) => {
+  public unfollowHashtag = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const hashtag = req.params.hashtag as string;
       const userId = req.user.sub as string;

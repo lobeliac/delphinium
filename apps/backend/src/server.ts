@@ -1,3 +1,4 @@
+// oxlint-disable-next-line import/no-unassigned-import
 import "reflect-metadata";
 import { container } from "./infrastructure/di/inversify.config.ts";
 import express from "express";
@@ -134,5 +135,6 @@ app.get("/api/me", requireAuth, (req: any, res) => {
 });
 
 app.listen(port, () => {
+  // oxlint-disable-next-line no-console
   console.log(`Server listening on port ${port}`);
 });
