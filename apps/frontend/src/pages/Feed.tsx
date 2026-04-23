@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import client from "../api/client";
 import type { Miniblog } from "../types";
 import { useAuth } from "../context/AuthContext";
-import { Heart, Trash2 } from "lucide-react";
+import { Heart, Trash2, Edit2, X, Check } from "lucide-react";
 
 const Feed = () => {
   const [miniblogs, setMiniblogs] = useState<Miniblog[]>([]);
   const [newContent, setNewContent] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
   const { logout, user } = useAuth();
 
   useEffect(() => {
@@ -76,6 +78,30 @@ const Feed = () => {
     }
   };
 
+  const startEdit = (blog: Miniblog) => {
+    setEditingId(blog.id);
+    setEditContent(blog.content);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditContent('');
+  };
+
+  const handleEditSubmit = async (blogId: string) => {
+    if (!editContent.trim()) return;
+    
+    try {
+      await client.put(`/miniblogs/${blogId}`, { content: editContent });
+      setMiniblogs(prev => prev.map(blog => 
+        blog.id === blogId ? { ...blog, content: editContent } : blog
+      ));
+      setEditingId(null);
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to update miniblog");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm p-4 flex justify-between items-center">
@@ -121,17 +147,52 @@ const Feed = () => {
                   </Link>
                   <span className="text-gray-500 text-sm">@{blog.authorNickname}</span>
                 </div>
-                {user?.id === blog.authorId && (
-                  <button
-                    onClick={() => handleDelete(blog.id)}
-                    className="text-gray-400 hover:text-red-600 transition-colors"
-                    title="Delete post"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+                {user?.id === blog.authorId && editingId !== blog.id && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => startEdit(blog)}
+                      className="text-gray-400 hover:text-blue-600 transition-colors"
+                      title="Edit post"
+                    >
+                      <Edit2 size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(blog.id)}
+                      className="text-gray-400 hover:text-red-600 transition-colors"
+                      title="Delete post"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 )}
               </div>
-              <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
+              {editingId === blog.id ? (
+                <div className="mb-2">
+                  <textarea
+                    className="w-full p-2 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+                    rows={3}
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                    autoFocus
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleEditSubmit(blog.id)}
+                      className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 flex items-center gap-1"
+                    >
+                      <Check size={14} /> Save
+                    </button>
+                    <button
+                      onClick={cancelEdit}
+                      className="bg-gray-200 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-300 flex items-center gap-1"
+                    >
+                      <X size={14} /> Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
+              )}
               <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
                 <button
                   onClick={() => handleLike(blog.id, !!blog.isLiked)}

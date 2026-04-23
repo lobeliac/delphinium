@@ -3,12 +3,14 @@ import { useParams, Link } from "react-router-dom";
 import client from "../api/client";
 import type { Miniblog } from "../types";
 import { useAuth } from "../context/AuthContext";
-import { Heart, Trash2 } from "lucide-react";
+import { Heart, Trash2, Edit2, X, Check } from 'lucide-react';
 
 const Profile = () => {
   const { id } = useParams();
   const [miniblogs, setMiniblogs] = useState<Miniblog[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
   const { user } = useAuth();
 
   const fetchProfile = async () => {
@@ -72,6 +74,30 @@ const Profile = () => {
     }
   };
 
+  const startEdit = (blog: Miniblog) => {
+    setEditingId(blog.id);
+    setEditContent(blog.content);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditContent('');
+  };
+
+  const handleEditSubmit = async (blogId: string) => {
+    if (!editContent.trim()) return;
+    
+    try {
+      await client.put(`/miniblogs/${blogId}`, { content: editContent });
+      setMiniblogs(prev => prev.map(blog => 
+        blog.id === blogId ? { ...blog, content: editContent } : blog
+      ));
+      setEditingId(null);
+    } catch (err: any) {
+      alert(err.response?.data?.error || "Failed to update miniblog");
+    }
+  };
+
   if (loading) return <div className="p-8 text-center">Loading...</div>;
 
   const isMe = id === "me" || (user && user.id === id);
@@ -103,21 +129,56 @@ const Profile = () => {
             miniblogs.map((blog) => (
               <div key={blog.id} className="bg-white p-4 rounded-lg shadow-sm border">
                 <div className="flex justify-between items-start mb-2">
-                  <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
+                  {editingId === blog.id ? (
+                    <div className="flex-1 mr-4">
+                      <textarea
+                        className="w-full p-2 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2"
+                        rows={3}
+                        value={editContent}
+                        onChange={(e) => setEditContent(e.target.value)}
+                        autoFocus
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEditSubmit(blog.id)}
+                          className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 flex items-center gap-1"
+                        >
+                          <Check size={14} /> Save
+                        </button>
+                        <button
+                          onClick={cancelEdit}
+                          className="bg-gray-200 text-gray-800 px-3 py-1 rounded text-sm hover:bg-gray-300 flex items-center gap-1"
+                        >
+                          <X size={14} /> Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
+                  )}
                   <div className="flex items-center gap-2">
                     {blog.visibility && blog.visibility !== "PUBLIC" && (
                       <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 border">
                         {blog.visibility}
                       </span>
                     )}
-                    {user?.id === blog.authorId && (
-                      <button
-                        onClick={() => handleDelete(blog.id)}
-                        className="text-gray-400 hover:text-red-600 transition-colors"
-                        title="Delete post"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                    {user?.id === blog.authorId && editingId !== blog.id && (
+                      <>
+                        <button
+                          onClick={() => startEdit(blog)}
+                          className="text-gray-400 hover:text-blue-600 transition-colors"
+                          title="Edit post"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(blog.id)}
+                          className="text-gray-400 hover:text-red-600 transition-colors"
+                          title="Delete post"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
