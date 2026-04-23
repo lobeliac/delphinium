@@ -243,11 +243,17 @@ export class MiniblogController {
         take: 50,
         include: {
           author: { include: { account: true } },
-          _count: { select: { likes: true, comments: true } }
+          _count: { select: { likes: true, comments: true } },
+          ...(req.user?.sub ? {
+            likes: {
+              where: { userID: req.user.sub },
+              select: { id: true }
+            }
+          } : {})
         }
       });
 
-      const miniblogs = rows.map((r) => ({
+      const miniblogs = rows.map((r: any) => ({
         id: r.id,
         content: r.content,
         authorId: r.authorID,
@@ -255,7 +261,8 @@ export class MiniblogController {
         authorNickname: r.author.account?.nickname || "unknown",
         visibility: r.visibility,
         createdAt: r.createdAt,
-        likesCount: r._count.likes
+        likesCount: r._count.likes,
+        isLiked: r.likes ? r.likes.length > 0 : false
       }));
 
       res.status(200).json(miniblogs);
@@ -273,11 +280,17 @@ export class MiniblogController {
         take: 50,
         include: {
           author: { include: { account: true } },
-          _count: { select: { likes: true, comments: true } }
+          _count: { select: { likes: true, comments: true } },
+          ...(req.user?.sub ? {
+            likes: {
+              where: { userID: req.user.sub },
+              select: { id: true }
+            }
+          } : {})
         }
       });
 
-      const miniblogs = rows.map((r) => ({
+      const miniblogs = rows.map((r: any) => ({
         id: r.id,
         content: r.content,
         authorId: r.authorID,
@@ -285,7 +298,8 @@ export class MiniblogController {
         authorNickname: r.author.account?.nickname || "unknown",
         visibility: r.visibility,
         createdAt: r.createdAt,
-        likesCount: r._count.likes
+        likesCount: r._count.likes,
+        isLiked: r.likes ? r.likes.length > 0 : false
       }));
 
       res.status(200).json(miniblogs);
