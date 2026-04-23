@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import client from '../api/client';
 import type { Miniblog } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { Trash2 } from 'lucide-react';
 
 const Profile = () => {
   const { id } = useParams();
@@ -28,6 +29,17 @@ const Profile = () => {
 
     fetchProfile();
   }, [id, user?.id]);
+
+  const handleDelete = async (miniblogId: string) => {
+    if (!window.confirm('Are you sure you want to delete this miniblog?')) return;
+    
+    try {
+      await client.delete(`/miniblogs/${miniblogId}`);
+      setMiniblogs(prev => prev.filter(blog => blog.id !== miniblogId));
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Failed to delete miniblog');
+    }
+  };
 
   if (loading) return <div className="p-8 text-center">Loading...</div>;
 
@@ -55,7 +67,25 @@ const Profile = () => {
           {miniblogs.length > 0 ? (
             miniblogs.map((blog) => (
               <div key={blog.id} className="bg-white p-4 rounded-lg shadow-sm border">
-                <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
+                <div className="flex justify-between items-start mb-2">
+                  <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
+                  <div className="flex items-center gap-2">
+                    {blog.visibility && blog.visibility !== 'PUBLIC' && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 border">
+                        {blog.visibility}
+                      </span>
+                    )}
+                    {user?.id === blog.authorId && (
+                      <button 
+                        onClick={() => handleDelete(blog.id)}
+                        className="text-gray-400 hover:text-red-600 transition-colors"
+                        title="Delete post"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                  </div>
+                </div>
                 <div className="mt-3 text-xs text-gray-400">
                   {new Date(blog.createdAt).toLocaleString()}
                 </div>

@@ -5,7 +5,9 @@ import Register from './pages/Register';
 import Feed from './pages/Feed';
 import Profile from './pages/Profile';
 
-const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+import type { ReactNode } from 'react';
+
+const PrivateRoute = ({ children }: { children: ReactNode }) => {
   const { token, isLoading } = useAuth();
   if (isLoading) return <div>Loading...</div>;
   return token ? children : <Navigate to="/login" />;

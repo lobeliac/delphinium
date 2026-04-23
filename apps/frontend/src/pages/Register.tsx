@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import client from '../api/client';
 
 const registerSchema = z.object({
   nickname: z.string().min(3, 'Nickname too short').max(20),

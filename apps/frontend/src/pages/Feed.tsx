@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import client from '../api/client';
 import type { Miniblog } from '../types';
 import { useAuth } from '../context/AuthContext';
-import { Heart } from 'lucide-react';
+import { Heart, Trash2 } from 'lucide-react';
 
 const Feed = () => {
   const [miniblogs, setMiniblogs] = useState<Miniblog[]>([]);
   const [newContent, setNewContent] = useState('');
   const { logout, user } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchFeed();
@@ -64,6 +63,17 @@ const Feed = () => {
     }
   };
 
+  const handleDelete = async (miniblogId: string) => {
+    if (!window.confirm('Are you sure you want to delete this miniblog?')) return;
+    
+    try {
+      await client.delete(`/miniblogs/${miniblogId}`);
+      setMiniblogs(prev => prev.filter(blog => blog.id !== miniblogId));
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Failed to delete miniblog');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm p-4 flex justify-between items-center">
@@ -96,12 +106,23 @@ const Feed = () => {
         <div className="space-y-4">
           {miniblogs.map((blog) => (
             <div key={blog.id} className="bg-white p-4 rounded-lg shadow-sm border">
-              <div className="flex items-center gap-2 mb-2">
-                <Link to={`/profile/${blog.authorId}`} className="font-bold hover:underline">
-                  {blog.authorDisplayName}
-                </Link>
-                <span className="text-gray-500 text-sm">@{blog.authorNickname}</span >
-              </div >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Link to={`/profile/${blog.authorId}`} className="font-bold hover:underline">
+                    {blog.authorDisplayName}
+                  </Link>
+                  <span className="text-gray-500 text-sm">@{blog.authorNickname}</span>
+                </div>
+                {user?.id === blog.authorId && (
+                  <button 
+                    onClick={() => handleDelete(blog.id)}
+                    className="text-gray-400 hover:text-red-600 transition-colors"
+                    title="Delete post"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                )}
+              </div>
               <p className="text-gray-800 whitespace-pre-wrap">{blog.content}</p>
               <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
                 <button 
