@@ -229,16 +229,68 @@ export class MiniblogController {
     }
   };
 
+  public getMiniblogsByUser = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    try {
+      const userId = req.params.userId as string;
+      const isOwner = req.user?.sub === userId;
+
+      const rows = await this.prisma.miniblog.findMany({
+        where: {
+          authorID: userId,
+          ...(isOwner ? {} : { visibility: "PUBLIC" })
+        },
+        orderBy: { createdAt: "desc" },
+        take: 50,
+        include: {
+          author: { include: { account: true } },
+          _count: { select: { likes: true, comments: true } }
+        }
+      });
+
+      const miniblogs = rows.map((r) => ({
+        id: r.id,
+        content: r.content,
+        authorId: r.authorID,
+        authorDisplayName: r.author.displayName,
+        authorNickname: r.author.account?.nickname || "unknown",
+        visibility: r.visibility,
+        createdAt: r.createdAt,
+        likesCount: r._count.likes
+      }));
+
+      res.status(200).json(miniblogs);
+    } catch (error) {
+      console.error("Error in getMiniblogsByUser:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
   public getMiniblogs = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
-      // Basic Read-Side implementation using Prisma directly
-      const miniblogs = await this.prisma.miniblog.findMany({
+      const rows = await this.prisma.miniblog.findMany({
         where: { visibility: "PUBLIC" },
         orderBy: { createdAt: "desc" },
-        take: 50
+        take: 50,
+        include: {
+          author: { include: { account: true } },
+          _count: { select: { likes: true, comments: true } }
+        }
       });
+
+      const miniblogs = rows.map((r) => ({
+        id: r.id,
+        content: r.content,
+        authorId: r.authorID,
+        authorDisplayName: r.author.displayName,
+        authorNickname: r.author.account?.nickname || "unknown",
+        visibility: r.visibility,
+        createdAt: r.createdAt,
+        likesCount: r._count.likes
+      }));
+
       res.status(200).json(miniblogs);
-    } catch {
+    } catch (error) {
+      console.error("Error in getMiniblogs:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   };

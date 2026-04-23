@@ -21,6 +21,7 @@ describe("CreateMiniblogCommandHandler", () => {
       findById: vi.fn(),
       findAllByAuthor: vi.fn(),
       findAll: vi.fn(),
+      findAll: vi.fn(),
       save: vi.fn(),
       delete: vi.fn()
     } as MiniblogRepository;
