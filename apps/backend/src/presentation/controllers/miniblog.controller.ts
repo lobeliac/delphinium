@@ -136,7 +136,7 @@ export class MiniblogController {
     this.prisma = prisma;
   }
 
-  public createMiniblog = async (req: AuthenticatedRequest, res: Response) : Promise<void> => {
+  public createMiniblog = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
     try {
       const parsed = CreateMiniblogSchema.parse(req.body);
       const authorId = req.user.sub as string;
@@ -244,12 +244,14 @@ export class MiniblogController {
         include: {
           author: { include: { account: true } },
           _count: { select: { likes: true, comments: true } },
-          ...(req.user?.sub ? {
-            likes: {
-              where: { userID: req.user.sub },
-              select: { id: true }
-            }
-          } : {})
+          ...(req.user?.sub
+            ? {
+                likes: {
+                  where: { userID: req.user.sub },
+                  select: { id: true }
+                }
+              }
+            : {})
         }
       });
 
@@ -281,12 +283,14 @@ export class MiniblogController {
         include: {
           author: { include: { account: true } },
           _count: { select: { likes: true, comments: true } },
-          ...(req.user?.sub ? {
-            likes: {
-              where: { userID: req.user.sub },
-              select: { id: true }
-            }
-          } : {})
+          ...(req.user?.sub
+            ? {
+                likes: {
+                  where: { userID: req.user.sub },
+                  select: { id: true }
+                }
+              }
+            : {})
         }
       });
 

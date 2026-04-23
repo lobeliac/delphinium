@@ -1,13 +1,13 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const registerSchema = z.object({
-  nickname: z.string().min(3, 'Nickname too short').max(20),
-  password: z.string().min(8, 'Password too short'),
-  displayName: z.string().min(1, 'Display name required').max(50),
+  nickname: z.string().min(3, "Nickname too short").max(20),
+  password: z.string().min(8, "Password too short"),
+  displayName: z.string().min(1, "Display name required").max(50)
 });
 
 type RegisterForm = z.infer<typeof registerSchema>;
@@ -19,17 +19,17 @@ const Register = () => {
   const {
     register: reg,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting }
   } = useForm<RegisterForm>({
-    resolver: zodResolver(registerSchema),
+    resolver: zodResolver(registerSchema)
   });
 
   const onSubmit = async (data: RegisterForm) => {
     try {
       await register(data);
-      navigate('/login');
+      navigate("/login");
     } catch (err: any) {
-      alert(err.response?.data?.error || 'Registration failed');
+      alert(err.response?.data?.error || "Registration failed");
     }
   };
 
@@ -41,38 +41,47 @@ const Register = () => {
           <div>
             <label className="block text-sm font-medium mb-1">Nickname</label>
             <input
-              {...reg('nickname')}
+              {...reg("nickname")}
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.nickname && <p className="text-red-500 text-xs mt-1">{errors.nickname.message}</p>}
+            {errors.nickname && (
+              <p className="text-red-500 text-xs mt-1">{errors.nickname.message}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Display Name</label>
             <input
-              {...reg('displayName')}
+              {...reg("displayName")}
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.displayName && <p className="text-red-500 text-xs mt-1">{errors.displayName.message}</p>}
+            {errors.displayName && (
+              <p className="text-red-500 text-xs mt-1">{errors.displayName.message}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Password</label>
             <input
-              {...reg('password')}
+              {...reg("password")}
               type="password"
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+            )}
           </div>
           <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-50"
           >
-            {isSubmitting ? 'Registering...' : 'Register'}
+            {isSubmitting ? "Registering..." : "Register"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
-          Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Login</Link>
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Login
+          </Link>
         </p>
       </div>
     </div>

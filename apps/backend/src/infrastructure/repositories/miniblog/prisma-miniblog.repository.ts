@@ -1,7 +1,12 @@
 import { injectable, inject } from "inversify";
 import type { MiniblogRepository } from "@slice/miniblog/repository";
 import type { MiniblogVisibility } from "@slice/miniblog/domain";
-import { MiniblogContent, MiniblogVisibilityVO, Miniblog, MiniblogVisibilityEnum  } from "@slice/miniblog/domain";
+import {
+  MiniblogContent,
+  MiniblogVisibilityVO,
+  Miniblog,
+  MiniblogVisibilityEnum
+} from "@slice/miniblog/domain";
 import { PrismaService } from "../../database/prisma.ts";
 import { EntityNotFoundError, IllegalStateError } from "@base/domain/error";
 import type { Result } from "@base/domain/result";

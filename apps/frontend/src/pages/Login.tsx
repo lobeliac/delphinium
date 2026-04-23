@@ -1,34 +1,34 @@
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import client from '../api/client';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import client from "../api/client";
 
 const loginSchema = z.object({
-  nickname: z.string().min(3, 'Nickname too short'),
-  password: z.string().min(8, 'Password too short'),
+  nickname: z.string().min(3, "Nickname too short"),
+  password: z.string().min(8, "Password too short")
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
 
 const Login = () => {
   const { login } = useAuth();
-  
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting }
   } = useForm<LoginForm>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema)
   });
 
   const onSubmit = async (data: LoginForm) => {
     try {
-      const res = await client.post('/auth/login', data);
+      const res = await client.post("/auth/login", data);
       await login(res.data);
     } catch (err: any) {
-      alert(err.response?.data?.error || 'Login failed');
+      alert(err.response?.data?.error || "Login failed");
     }
   };
 
@@ -40,30 +40,37 @@ const Login = () => {
           <div>
             <label className="block text-sm font-medium mb-1">Nickname</label>
             <input
-              {...register('nickname')}
+              {...register("nickname")}
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.nickname && <p className="text-red-500 text-xs mt-1">{errors.nickname.message}</p>}
+            {errors.nickname && (
+              <p className="text-red-500 text-xs mt-1">{errors.nickname.message}</p>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Password</label>
             <input
-              {...register('password')}
+              {...register("password")}
               type="password"
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+            )}
           </div>
           <button
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
           >
-            {isSubmitting ? 'Logging in...' : 'Login'}
+            {isSubmitting ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-600">
-          Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Register</Link>
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Register
+          </Link>
         </p>
       </div>
     </div>

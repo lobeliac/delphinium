@@ -86,7 +86,7 @@ export class AuthController {
     this.commandBus = commandBus;
   }
 
-  public register = async (req: Request, res: Response) : Promise<void> => {
+  public register = async (req: Request, res: Response): Promise<void> => {
     try {
       // 1. Validate Input
       const parsed = RegisterSchema.parse(req.body);
@@ -152,7 +152,7 @@ export class AuthController {
     }
   };
 
-  public logout = async (req: Request, res: Response) : Promise<void> => {
+  public logout = async (req: Request, res: Response): Promise<void> => {
     // In a stateless JWT system, logout is mostly a client-side operation
     // (deleting the token from local storage or cookie).
     // A more advanced system would blacklist the token in Redis.

@@ -16,7 +16,7 @@ export type Miniblog = {
   authorId: string;
   authorNickname: string;
   authorDisplayName: string;
-  visibility: 'PUBLIC' | 'PRIVATE';
+  visibility: "PUBLIC" | "PRIVATE";
   createdAt: string;
   likesCount?: number;
   isLiked?: boolean;
@@ -41,5 +41,5 @@ export type LoginInput = {
 
 export type CreateMiniblogInput = {
   content: string;
-  visibility?: 'PUBLIC' | 'PRIVATE';
+  visibility?: "PUBLIC" | "PRIVATE";
 };
