@@ -3,6 +3,12 @@
 # or both values.
 projects:
   root: "."
+  backend: "apps/backend"
+  frontend: "apps/frontend"
+  miniblog: "packages/miniblog"
+  identity: "packages/identity"
+  engagement: "packages/engagement"
+  domain: "packages/domain"
 
 # Configures the version control system (VCS). Also known as
 # source code management (SCM).

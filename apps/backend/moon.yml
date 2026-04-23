@@ -1,0 +1,9 @@
+tasks:
+  dev:
+    command: "pnpm run dev"
+    options:
+      persistent: true
+  build:
+    command: "pnpm run build"
+  test:
+    command: "pnpm run test"
